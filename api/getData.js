@@ -1,4 +1,3 @@
-// /api/getData.js
 import { google } from 'googleapis';
 
 export default async function handler(req, res) {
@@ -24,7 +23,7 @@ export default async function handler(req, res) {
     const values = result.data.values || [];
     res.status(200).json(values);
   } catch (err) {
-    console.error('❌ Error in getData.js:', err.message);
-    res.status(500).json({ error: 'Server error', message: err.message });
+    console.error('❌ API Error:', err);
+    res.status(500).json({ error: err.message });
   }
 }
