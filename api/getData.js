@@ -1,20 +1,20 @@
 // api/getData.js
-const { google } = require('googleapis');
-const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
-
-const auth = new google.auth.JWT({
-  email: credentials.client_email,
-  key: credentials.private_key,
-  scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
-});
-
-const spreadsheetId = '15QeWtREpPzytxHbtPj4ajCkD3BstlbGxH2GzsdLbUF8';
-const range = 'Sheet1!A:P';
+import { google } from 'googleapis';
 
 export default async function handler(req, res) {
   try {
-    const client = await auth.authorize();
-    const sheets = google.sheets({ version: 'v4', auth });
+    const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_CREDENTIALS);
+
+    const auth = new google.auth.GoogleAuth({
+      credentials,
+      scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
+    });
+
+    const client = await auth.getClient();
+    const sheets = google.sheets({ version: 'v4', auth: client });
+
+    const spreadsheetId = '15QeWtREpPzytxHbtPj4ajCkD3BstlbGxH2GzsdLbUF8';
+    const range = 'Sheet1!A:P';
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
@@ -23,9 +23,13 @@ export default async function handler(req, res) {
     });
 
     const values = response.data.values || [];
+    if (values.length < 2) {
+      return res.status(404).json({ error: 'No data found.' });
+    }
+
     res.status(200).json(values);
-  } catch (err) {
-    console.error('❌ Error fetching Google Sheet:', err.message);
-    res.status(500).json({ error: 'Failed to fetch sheet data.' });
+  } catch (error) {
+    console.error('Error fetching Google Sheet:', error.message);
+    res.status(500).json({ error: 'Unable to fetch sheet data' });
   }
 }
