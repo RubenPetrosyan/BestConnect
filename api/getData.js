@@ -1,4 +1,4 @@
-// api/getData.js
+// /api/getData.js
 import { google } from 'googleapis';
 
 export default async function handler(req, res) {
@@ -16,20 +16,15 @@ export default async function handler(req, res) {
     const spreadsheetId = '15QeWtREpPzytxHbtPj4ajCkD3BstlbGxH2GzsdLbUF8';
     const range = 'Sheet1!A:P';
 
-    const response = await sheets.spreadsheets.values.get({
+    const result = await sheets.spreadsheets.values.get({
       spreadsheetId,
       range,
-      valueRenderOption: 'FORMATTED_VALUE',
     });
 
-    const values = response.data.values || [];
-    if (values.length < 2) {
-      return res.status(404).json({ error: 'No data found.' });
-    }
-
+    const values = result.data.values || [];
     res.status(200).json(values);
-  } catch (error) {
-    console.error('Error fetching Google Sheet:', error.message);
-    res.status(500).json({ error: 'Unable to fetch sheet data' });
+  } catch (err) {
+    console.error('❌ Error in getData.js:', err.message);
+    res.status(500).json({ error: 'Server error', message: err.message });
   }
 }
