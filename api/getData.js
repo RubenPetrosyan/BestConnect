@@ -1,29 +1,36 @@
-import { google } from 'googleapis';
+// api/getData.js
 
-export default async function handler(req, res) {
-  try {
-    const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_CREDENTIALS);
-
-    const auth = new google.auth.GoogleAuth({
-      credentials,
-      scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
-    });
-
-    const client = await auth.getClient();
-    const sheets = google.sheets({ version: 'v4', auth: client });
-
-    const spreadsheetId = '15QeWtREpPzytxHbtPj4ajCkD3BstlbGxH2GzsdLbUF8';
-    const range = 'Sheet1!A:P';
-
-    const result = await sheets.spreadsheets.values.get({
-      spreadsheetId,
-      range,
-    });
-
-    const values = result.data.values || [];
-    res.status(200).json(values);
-  } catch (err) {
-    console.error('❌ API Error:', err);
-    res.status(500).json({ error: err.message });
+export default function handler(req, res) {
+    try {
+      const creds = process.env.GOOGLE_SERVICE_ACCOUNT_CREDENTIALS;
+  
+      if (!creds) {
+        return res.status(500).json({
+          error: 'Missing GOOGLE_SERVICE_ACCOUNT_CREDENTIALS environment variable',
+        });
+      }
+  
+      let parsed;
+      try {
+        parsed = JSON.parse(creds);
+      } catch (e) {
+        return res.status(500).json({
+          error: 'Failed to parse credentials JSON',
+          details: e.message,
+        });
+      }
+  
+      return res.status(200).json({
+        success: true,
+        client_email: parsed.client_email,
+        project_id: parsed.project_id,
+      });
+  
+    } catch (err) {
+      return res.status(500).json({
+        error: 'Unexpected error',
+        details: err.message,
+      });
+    }
   }
-}
+  
