@@ -19,7 +19,7 @@ pids/
 *.local
 
 # Google credentials / keys
-*.json
+bestconnect-457519-797a26438c69.json
 
 # Build output
 dist/
@@ -36,3 +36,5 @@ Thumbs.db
 # Optional: OS-specific
 *.swp
 config/googleSheetsConfig.js
+server.js
+routes/apiRoutes.js
