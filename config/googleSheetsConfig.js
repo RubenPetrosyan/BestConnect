@@ -1,19 +1,18 @@
-// googleSheetsConfig.js
-const path = require('path');
+const { google } = require('googleapis');
 
-module.exports = {
-  // Your Google Sheet’s unique ID (from its URL)
-  spreadsheetId: '15QeWtREpPzytxHbtPj4ajCkD3BstlbGxH2GzsdLbUF8',
+const serviceAccount = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
 
-  // The sheet/tab name you’re reading from
-  sheetName: 'Sheet1',
+// Fix for private_key line breaks if needed
+if (serviceAccount.private_key.includes('\\n')) {
+  serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
+}
 
-  // The A–P range covering all 16 columns
-  dataRange: `${'Sheet1'}!A:P`,
+const auth = new google.auth.JWT({
+  email: serviceAccount.client_email,
+  key: serviceAccount.private_key,
+  scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly']
+});
 
-  // Path to your service account JSON key
-  keyFile: path.join(__dirname, 'bestconnect-457519-797a26438c69.json'),
+const sheets = google.sheets({ version: 'v4', auth });
 
-  // Required OAuth scopes for read-only access
-  scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
-};
+module.exports = sheets;
