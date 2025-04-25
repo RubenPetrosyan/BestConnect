@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Submission Guideline</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <style>
+    /* Guideline page overrides */
+    body {
+      background: #f2f2f2;
+      padding: 20px;
+    }
+    .guideline-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 16px;
+      color: #e67e22;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover {
+      color: #cf711f;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      color: #e67e22;
+      text-align: center;
+    }
+    #guidelineText {
+      background: #fff;
+      padding: 16px;
+      border-radius: 6px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      white-space: pre-wrap;
+      line-height: 1.5;
+      font-size: 0.95rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="guideline-container">
+    <a href="/" class="back-link">&larr; Back to Search</a>
+    <h1>Submission Guideline</h1>
+    <div id="guidelineText">Loading…</div>
+  </div>
+
+  <script>
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const company = params.get('company');
+      const textEl = document.getElementById('guidelineText');
+
+      if (!company) {
+        textEl.textContent = 'No company specified.';
+        return;
+      }
+
+      fetch('/api/getData')
+        .then(res => res.json())
+        .then(raw => {
+          const header = raw[0];
+          const rows = raw.slice(1);
+          const idxName = header.indexOf('Company Name');
+          const idxGuid = header.indexOf('Submission Guideline');
+          const match = rows.find(r => r[idxName] === company);
+
+          if (!match) {
+            textEl.textContent = 'Guideline not found for "' + company + '".';
+          } else {
+            // Preserve line breaks and split on double-dash
+            let gd = match[idxGuid] || '';
+            // If user used '--' for new lines
+            gd = gd.split('--').map(s => s.trim()).join('\n');
+            textEl.textContent = gd || 'No guideline available.';
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          textEl.textContent = 'Error loading guideline.';
+        });
+    })();
+  </script>
+</body>
+</html>
