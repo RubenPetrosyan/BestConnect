@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (!filterable.every(col => match(col, r[headerRaw.indexOf(col)]))) return false;
       if (pv !== null) {
         const rawMax = (r[idx.maxPower] || '').trim().toLowerCase();
-        const maxVal = rawMax.includes('No Max') ? Infinity : parseFloat(rawMax);
+        const maxVal = rawMax.includes('Unlimited') ? Infinity : parseFloat(rawMax);
         if (isNaN(maxVal) || pv > maxVal) return false;
       }
       if (yv !== null) {
