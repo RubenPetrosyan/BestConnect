@@ -1,4 +1,3 @@
-// public/js/app.js
 document.addEventListener('DOMContentLoaded', async () => {
   let raw;
   try {
@@ -138,16 +137,24 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let rows = data.filter(r => {
       if (!filterable.every(col => match(col, r[headerRaw.indexOf(col)]))) return false;
+
+      // Power Units logic
       if (pv !== null) {
         const rawMax = (r[idx.maxPower] || '').trim().toLowerCase();
-        const maxVal = rawMax.includes('Unlimited') ? Infinity : parseFloat(rawMax);
-        if (isNaN(maxVal) || pv > maxVal) return false;
+        const rawMin = (r[idx.minPower] || '').trim();
+        const maxVal = rawMax === 'no max' ? Infinity : parseFloat(rawMax);
+        const minVal = parseFloat(rawMin);
+        if (isNaN(minVal) || isNaN(maxVal) || pv < minVal || pv > maxVal) return false;
       }
+
+      // Years in business logic
       if (yv !== null) {
-        const yrs = parseFloat(r[idx.yearsInBiz]);
-        if (isNaN(yrs) || yrs < yv) return false;
+        const yrsRequired = parseFloat(r[idx.yearsInBiz]);
+        if (isNaN(yrsRequired) || yrsRequired > yv) return false;
       }
+
       if (un && r[idx.unlimited].toUpperCase() !== 'YES') return false;
+
       return true;
     });
 
@@ -175,8 +182,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     displayCols.forEach(col => {
       const th = document.createElement('th');
       th.innerHTML = col.label;
-
-      // Sort button for "Wholesaler"
       if (col.idx === idx.wholesaler) {
         const btn = document.createElement('button');
         btn.className = 'sort-btn';
@@ -192,7 +197,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
         th.appendChild(btn);
       }
-
       hr.appendChild(th);
     });
     table.appendChild(hr);
@@ -203,26 +207,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         const td = document.createElement('td');
         const cell = (r[col.idx]||'').trim();
 
-        if (col.type==='guideline') {
+        if (col.type === 'guideline') {
           td.innerHTML = `<button class="view-btn">📄</button>`;
           td.firstChild.addEventListener('click', e => {
             e.stopPropagation();
-            const parts = cell.split('--').map(s=>s.trim()).join('<br>');
+            const parts = cell.split('--').map(s => s.trim()).join('<br>');
             showModal('Submission Guideline', `<p>${parts}</p>`);
           });
         } else if (col.idx === idx.coverage) {
-          const list = cell.split(',').map(s=>s.trim()).filter(Boolean);
+          const list = cell.split(',').map(s => s.trim()).filter(Boolean);
           td.innerHTML = list.join('<br>');
         } else if (col.idx === idx.business) {
           td.innerHTML = `<button class="view-btn">🔍</button>`;
           td.firstChild.addEventListener('click', e => {
             e.stopPropagation();
-            const list = cell.split(',').map(s=>s.trim()).filter(Boolean);
-            showModal('Business Types', `<ul>${list.map(v=>`<li>${v}</li>`).join('')}</ul>`);
+            const list = cell.split(',').map(s => s.trim()).filter(Boolean);
+            showModal('Business Types', `<ul>${list.map(v => `<li>${v}</li>`).join('')}</ul>`);
           });
         } else if (col.idx === idx.states) {
-          const parts = cell.split(',').map(s=>s.trim()).filter(Boolean);
-          td.textContent = parts.length>1 ? parts[0]+'…' : cell;
+          const parts = cell.split(',').map(s => s.trim()).filter(Boolean);
+          td.textContent = parts.length > 1 ? parts[0] + '…' : cell;
           td.setAttribute('data-full', cell);
           td.classList.add('ellipsis');
         } else if (col.idx === idx.pdfLink && cell) {
