@@ -175,6 +175,8 @@ h1 {
   position: sticky;
   top: 0;
   z-index: 2;
+  white-space: normal;
+  word-break: break-word;
 }
 #resultsTable tr:nth-child(odd) {
   background: #fcf3e3;
@@ -192,6 +194,24 @@ h1 {
 }
 #resultsTable td a:hover {
   text-decoration: underline;
+}
+
+/* ========== Sortable Column Headers ========== */
+th.sortable {
+  cursor: pointer;
+  white-space: nowrap;
+}
+th.sortable::after {
+  content: " ⬍";
+  font-size: 0.8rem;
+  color: #fdfdfd;
+  padding-left: 4px;
+}
+th.sortable.sorted-asc::after {
+  content: " ▲";
+}
+th.sortable.sorted-desc::after {
+  content: " ▼";
 }
 
 /* ========== Ellipsis Tooltip for Long Cells (States) ========== */
@@ -231,7 +251,7 @@ h1 {
   opacity: 0.6;
 }
 
-/* ========== Modal Styling (with scrolling) ========== */
+/* ========== Modal Styling ========== */
 .modal {
   display: none;
   position: fixed;
