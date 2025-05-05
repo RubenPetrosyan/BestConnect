@@ -1,3 +1,4 @@
+// public/js/app.js
 document.addEventListener('DOMContentLoaded', async () => {
   let raw;
   try {
@@ -39,9 +40,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const rIx = headerRaw.findIndex(h => /rating|rated/i.test(h));
   if (rIx >= 0) idx.rating = rIx;
 
-  const wanted = ['states','business type','coverage types','commission %'];
+  const wanted = ['states', 'business type', 'coverage types', 'commission %'];
   if (idx.rating >= 0) wanted.push(headerKey[idx.rating]);
-  const filterable = headerRaw.filter((h,i) => wanted.includes(headerKey[i]));
+  const filterable = headerRaw.filter((h, i) => wanted.includes(headerKey[i]));
   const filters = {};
 
   const filtersContainer = document.getElementById('filters');
@@ -57,13 +58,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       </select>
     `;
     filtersContainer.appendChild(div);
-    div.querySelector('select').addEventListener('change', e => {
+    const select = div.querySelector('select');
+    select.addEventListener('change', e => {
       filters[col] = e.target.value;
-      filterable.slice(i+1).forEach((_, j) => {
-        filters[filterable[i+1+j]] = '';
-        document.getElementById(`f-${i+1+j}`).value = '';
-      });
-      populateFilters();
       renderTable();
     });
   });
@@ -71,8 +68,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   function match(col, cell) {
     const sel = filters[col];
     if (!sel) return true;
-    if (['States','Business Type','Coverage Types'].includes(col)) {
-      return cell.split(',').map(s=>s.trim()).includes(sel);
+    if (['States', 'Business Type', 'Coverage Types'].includes(col)) {
+      return cell.split(',').map(s => s.trim()).includes(sel);
     }
     return cell === sel;
   }
@@ -80,18 +77,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   function populateFilters() {
     filterable.forEach((col, i) => {
       const ci = headerRaw.indexOf(col);
-      const subset = data.filter(r =>
-        filterable.slice(0,i).every(prev => match(prev, r[headerRaw.indexOf(prev)]))
-      );
       let opts;
-      if (['States','Business Type','Coverage Types'].includes(col)) {
+      if (['States', 'Business Type', 'Coverage Types'].includes(col)) {
         opts = Array.from(new Set(
-          subset.flatMap(r => r[ci].split(',').map(s => s.trim()))
+          data.flatMap(r => r[ci].split(',').map(s => s.trim()))
         ));
       } else {
-        opts = Array.from(new Set(subset.map(r => r[ci])));
+        opts = Array.from(new Set(data.map(r => r[ci])));
       }
-      opts = opts.filter(v=>v).sort();
+      opts = opts.filter(v => v).sort();
       const sel = document.getElementById(`f-${i}`);
       const prev = sel.value;
       sel.innerHTML = '<option value="">Please select</option>';
@@ -138,7 +132,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     let rows = data.filter(r => {
       if (!filterable.every(col => match(col, r[headerRaw.indexOf(col)]))) return false;
 
-      // Power Units logic
       if (pv !== null) {
         const rawMax = (r[idx.maxPower] || '').trim().toLowerCase();
         const rawMin = (r[idx.minPower] || '').trim();
@@ -147,7 +140,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (isNaN(minVal) || isNaN(maxVal) || pv < minVal || pv > maxVal) return false;
       }
 
-      // Years in business logic
       if (yv !== null) {
         const yrsRequired = parseFloat(r[idx.yearsInBiz]);
         if (isNaN(yrsRequired) || yrsRequired > yv) return false;
