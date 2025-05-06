@@ -156,6 +156,8 @@ h1 {
   padding: 16px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.1);
   overflow-x: auto;
+  overflow-y: auto;
+  max-height: 600px;
 }
 #resultsTable {
   width: 100%;
@@ -194,11 +196,6 @@ h1 {
 }
 #resultsTable td a:hover {
   text-decoration: underline;
-}
-#resultsTable th {
-  position: sticky;
-  top: 0;
-  z-index: 2;
 }
 
 /* ========== Sortable Column Headers ========== */
