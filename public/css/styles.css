@@ -195,6 +195,11 @@ h1 {
 #resultsTable td a:hover {
   text-decoration: underline;
 }
+#resultsTable th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
 
 /* ========== Sortable Column Headers ========== */
 th.sortable {
