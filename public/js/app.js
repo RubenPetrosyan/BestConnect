@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           const list = cell.split(',').map(s => s.trim()).filter(Boolean);
           td.innerHTML = list.join('<br>');
         } else if (col.idx === idx.business) {
-          td.innerHTML = `<button class="view-btn">🔍</button>`;
+          td.innerHTML = `<button class="view-btn">🚛</button>`;
           td.firstChild.addEventListener('click', e => {
             e.stopPropagation();
             const list = cell.split(',').map(s => s.trim()).filter(Boolean);
