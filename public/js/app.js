@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (isNaN(yrsRequired) || yrsRequired > yv) return false;
       }
 
-      if (un && r[idx.unlimited].toUpperCase() !== 'YES') return false;
+      if (un && r[idx.unlimited].toUpperCase() === 'YES') return false;
 
       return true;
     });
