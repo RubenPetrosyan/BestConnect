@@ -1,3 +1,4 @@
+// public/js/app.js
 document.addEventListener('DOMContentLoaded', async () => {
   let raw;
   try {
@@ -123,34 +124,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   const table = document.getElementById('resultsTable');
   const noMsg = document.getElementById('no-results-message');
 
-  // New: search inputs
-  const searchCompany = document.getElementById('searchCompany');
-  const searchWholesaler = document.getElementById('searchWholesaler');
-
-  searchCompany.addEventListener('input', () => {
-    if (searchCompany.value) {
-      searchWholesaler.disabled = true;
-    } else {
-      searchWholesaler.disabled = false;
-    }
-    renderTable();
-  });
-
-  searchWholesaler.addEventListener('input', () => {
-    if (searchWholesaler.value) {
-      searchCompany.disabled = true;
-    } else {
-      searchCompany.disabled = false;
-    }
-    renderTable();
-  });
-
   function renderTable() {
     const pv = powerInput.value ? +powerInput.value : null;
     const yv = yearsInput.value ? +yearsInput.value : null;
     const un = unlimitedChk.checked;
-    const searchText = searchCompany.value.trim().toLowerCase();
-    const searchWh = searchWholesaler.value.trim().toLowerCase();
 
     let rows = data.filter(r => {
       if (!filterable.every(col => match(col, r[headerRaw.indexOf(col)]))) return false;
@@ -169,9 +146,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       if (un && r[idx.unlimited].toUpperCase() === 'YES') return false;
-
-      if (searchText.length >= 3 && !r[idx.name].toLowerCase().startsWith(searchText)) return false;
-      if (searchWh.length >= 3 && !r[idx.wholesaler].toLowerCase().startsWith(searchWh)) return false;
 
       return true;
     });
@@ -266,10 +240,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     powerInput.value = '';
     yearsInput.value = '';
     unlimitedChk.checked = false;
-    searchCompany.value = '';
-    searchWholesaler.value = '';
-    searchCompany.disabled = false;
-    searchWholesaler.disabled = false;
     currentSort = { by: 'company name', dir: 'asc' };
     renderTable();
   };
