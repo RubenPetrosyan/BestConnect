@@ -1,4 +1,4 @@
-const APP_PASSWORD = 'mySecret123'; // 🔐 Set your general password here
+const APP_PASSWORD = 'Royalty2025$$xyz098'; // 🔐 Set your general password here
 
 function checkAccess() {
   if (sessionStorage.getItem('authenticated')) return true;
