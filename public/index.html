@@ -10,7 +10,17 @@
 <body>
   <h1>Risk Match</h1>
 
-  <!-- Dynamic Dropdown Filters (built by app.js) -->
+  <!-- 🔒 Password Modal -->
+  <div id="passwordModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <h2>Enter Access Password</h2>
+      <input type="password" id="appPasswordInput" placeholder="Password" />
+      <button id="appPasswordSubmit">Enter</button>
+      <p id="appPasswordError" style="color:red; display:none;">Incorrect password. Please try again.</p>
+    </div>
+  </div>
+
+  <!-- Filters (Built by app.js) -->
   <div id="filters"></div>
 
   <!-- Power Units, Unlimited Radius & Min Years In Business -->
@@ -20,7 +30,7 @@
       <input type="number" id="powerUnitsInput" placeholder="Enter units" min="0"/>
     </div>
     <div class="unlimited-field">
-      <label for="unlimitedCheckbox">Limited Radius</label>
+      <label for="unlimitedCheckbox">Only Lim. Radius</label>
       <input type="checkbox" id="unlimitedCheckbox"/>
     </div>
     <div class="filter-years">
@@ -39,7 +49,7 @@
     <p id="no-results-message" style="display:none;">No results to display</p>
   </div>
 
-  <!-- Modal -->
+  <!-- Modal for Guidelines -->
   <div id="guidelineModal" class="modal">
     <div class="modal-content">
       <span id="modalClose" class="modal-close">&times;</span>
