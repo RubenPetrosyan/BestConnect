@@ -6,17 +6,55 @@
   <title>Risk Match</title>
   <link rel="stylesheet" href="css/styles.css"/>
   <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+  <style>
+    body.blurred > *:not(#passwordOverlay) {
+      filter: blur(5px);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    #passwordOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    #passwordBox {
+      background: white;
+      padding: 2em;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    #passwordBox input {
+      width: 200px;
+      padding: 0.5em;
+      margin-bottom: 1em;
+    }
+
+    #passwordBox button {
+      padding: 0.5em 1em;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <h1>Risk Match</h1>
 
   <!-- 🔒 Password Modal -->
-  <div id="passwordModal" class="modal" style="display:none;">
-    <div class="modal-content">
-      <h2>Enter Access Code</h2>
-      <input type="password" id="appPasswordInput" placeholder="Enter the Code" />
-      <button id="appPasswordSubmit">Enter</button>
-      <p id="appPasswordError" style="color:red; display:none;">Incorrect Code.</p>
+  <div id="passwordOverlay">
+    <div id="passwordBox">
+      <h2>Enter Password</h2>
+      <input type="password" id="passwordInput" placeholder="Password" />
+      <br />
+      <button id="passwordSubmit">Enter</button>
+      <p id="passwordError" style="color: red; display: none;">Incorrect password</p>
     </div>
   </div>
 
