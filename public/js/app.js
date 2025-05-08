@@ -1,26 +1,28 @@
 const APP_PASSWORD = 'Royalty2025$$xyz098'; // 🔐 Set your general password here
 
 function checkAccess() {
-  if (sessionStorage.getItem('authenticated')) return true;
+  if (sessionStorage.getItem('authenticated')) return; // Already allowed
 
-  const modal = document.getElementById('passwordModal');
-  const input = document.getElementById('appPasswordInput');
-  const submit = document.getElementById('appPasswordSubmit');
-  const error = document.getElementById('appPasswordError');
+  const overlay = document.getElementById('passwordOverlay');
+  const input = document.getElementById('passwordInput');
+  const submit = document.getElementById('passwordSubmit');
+  const error = document.getElementById('passwordError');
 
-  return new Promise(resolve => {
-    modal.style.display = 'flex';
-    submit.onclick = () => {
-      if (input.value.trim() === APP_PASSWORD) {
-        sessionStorage.setItem('authenticated', 'true');
-        modal.style.display = 'none';
-        resolve(true);
-      } else {
-        error.style.display = 'block';
-      }
-    };
+  document.body.classList.add('blurred');
+
+  submit.addEventListener('click', () => {
+    const entered = input.value.trim();
+    if (entered === APP_PASSWORD) {
+      sessionStorage.setItem('authenticated', '1');
+      overlay.style.display = 'none';
+      document.body.classList.remove('blurred');
+    } else {
+      error.style.display = 'block';
+      input.value = '';
+    }
   });
 }
+
 
 document.addEventListener('DOMContentLoaded', async () => {
   const accessGranted = await checkAccess();
