@@ -1,5 +1,31 @@
-// public/js/app.js
+const APP_PASSWORD = 'mySecret123'; // 🔐 Set your general password here
+
+function checkAccess() {
+  if (sessionStorage.getItem('authenticated')) return true;
+
+  const modal = document.getElementById('passwordModal');
+  const input = document.getElementById('appPasswordInput');
+  const submit = document.getElementById('appPasswordSubmit');
+  const error = document.getElementById('appPasswordError');
+
+  return new Promise(resolve => {
+    modal.style.display = 'flex';
+    submit.onclick = () => {
+      if (input.value.trim() === APP_PASSWORD) {
+        sessionStorage.setItem('authenticated', 'true');
+        modal.style.display = 'none';
+        resolve(true);
+      } else {
+        error.style.display = 'block';
+      }
+    };
+  });
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
+  const accessGranted = await checkAccess();
+  if (!accessGranted) return;
+
   let raw;
   try {
     raw = await (await fetch('/api/getData')).json();
@@ -65,6 +91,36 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
 
+  const powerInput   = document.getElementById('powerUnitsInput');
+  const unlimitedChk = document.getElementById('unlimitedCheckbox');
+  const yearsInput   = document.getElementById('yearsInput');
+  [powerInput, yearsInput].forEach(el => el.addEventListener('input', renderTable));
+  unlimitedChk.addEventListener('change', renderTable);
+
+  const modal      = document.getElementById('guidelineModal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalBody  = document.getElementById('modalBody');
+  const closeBtn   = document.getElementById('modalClose');
+  if (closeBtn) closeBtn.onclick = () => modal.style.display = 'none';
+  window.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
+  function showModal(title, content) {
+    modalTitle.textContent = title;
+    modalBody.innerHTML    = content;
+    modal.style.display    = 'flex';
+  }
+
+  const displayCols = [];
+  if (idx.guideline >= 0) displayCols.push({ idx: idx.guideline, type: 'guideline', label: 'Guideline' });
+  headerRaw.forEach((h, i) => {
+    if (i === idx.guideline) return;
+    displayCols.push({ idx: i, type: 'field', label: h.split(' ').join('<br>') });
+  });
+
+  let currentSort = { by: 'company name', dir: 'asc' };
+
+  const table = document.getElementById('resultsTable');
+  const noMsg = document.getElementById('no-results-message');
+
   function match(col, cell) {
     const sel = filters[col];
     if (!sel) return true;
@@ -93,36 +149,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (prev) sel.value = prev;
     });
   }
-
-  const powerInput   = document.getElementById('powerUnitsInput');
-  const unlimitedChk = document.getElementById('unlimitedCheckbox');
-  const yearsInput   = document.getElementById('yearsInput');
-  [powerInput, yearsInput].forEach(el => el.addEventListener('input', renderTable));
-  unlimitedChk.addEventListener('change', renderTable);
-
-  const modal      = document.getElementById('guidelineModal');
-  const modalTitle = document.getElementById('modalTitle');
-  const modalBody  = document.getElementById('modalBody');
-  const closeBtn   = document.getElementById('modalClose');
-  if (closeBtn) closeBtn.onclick = () => modal.style.display = 'none';
-  window.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
-  function showModal(title, content) {
-    modalTitle.textContent = title;
-    modalBody.innerHTML  = content;
-    modal.style.display   = 'flex';
-  }
-
-  const displayCols = [];
-  if (idx.guideline >= 0) displayCols.push({ idx: idx.guideline, type: 'guideline', label: 'Guideline' });
-  headerRaw.forEach((h, i) => {
-    if (i === idx.guideline) return;
-    displayCols.push({ idx: i, type: 'field', label: h.split(' ').join('<br>') });
-  });
-
-  let currentSort = { by: 'company name', dir: 'asc' };
-
-  const table = document.getElementById('resultsTable');
-  const noMsg = document.getElementById('no-results-message');
 
   function renderTable() {
     const pv = powerInput.value ? +powerInput.value : null;
