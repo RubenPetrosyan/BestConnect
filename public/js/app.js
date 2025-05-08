@@ -1,50 +1,44 @@
-const APP_PASSWORD = 'Royalty2025$$xyz098';
+const APP_PASSWORD = 'Royalty2025$$xyz098'; // 🔐 Change this to your secure password
 
-function initializeApp() {
+document.addEventListener('DOMContentLoaded', () => {
+  const overlay = document.getElementById('passwordOverlay');
+  const input = document.getElementById('passwordInput');
+  const submit = document.getElementById('passwordSubmit');
+  const error = document.getElementById('passwordError');
 
-  document.addEventListener('DOMContentLoaded', () => {
-    if (sessionStorage.getItem('authenticated') === 'true') {
-      document.getElementById('passwordOverlay').style.display = 'none';
-      document.body.classList.remove('blurred');
-      initializeApp();
-      return;
-    }
-  
-    const overlay = document.getElementById('passwordOverlay');
-    const input = document.getElementById('passwordInput');
-    const submit = document.getElementById('passwordSubmit');
-    const error = document.getElementById('passwordError');
-  
+  function initApp() {
+    overlay.style.display = 'none';
+    document.body.classList.remove('blurred');
+    loadAndRender();
+  }
+
+  if (sessionStorage.getItem('authenticated') === 'true') {
+    initApp();
+  } else {
+    overlay.style.display = 'flex';
     document.body.classList.add('blurred');
-  
+
     submit.addEventListener('click', () => {
-      const entered = input.value.trim();
-      if (entered === APP_PASSWORD) {
+      if (input.value.trim() === APP_PASSWORD) {
         sessionStorage.setItem('authenticated', 'true');
-        overlay.style.display = 'none';
-        document.body.classList.remove('blurred');
-        initializeApp(); // ✅ Load app now
+        initApp();
       } else {
         error.style.display = 'block';
         input.value = '';
       }
     });
-  });
-  
-}
+  }
+});
 
-
-document.addEventListener('DOMContentLoaded', async () => {
-  const accessGranted = await checkAccess();
-  if (!accessGranted) return;
-
+async function loadAndRender() {
   let raw;
   try {
     raw = await (await fetch('/api/getData')).json();
   } catch (e) {
-    console.error('Fetch failed', e);
+    console.error('❌ Failed to fetch data', e);
     return;
   }
+
   if (!Array.isArray(raw) || raw.length < 2) return;
 
   const headerRaw = raw[0].map(h => String(h).trim());
@@ -103,36 +97,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
 
-  const powerInput   = document.getElementById('powerUnitsInput');
-  const unlimitedChk = document.getElementById('unlimitedCheckbox');
-  const yearsInput   = document.getElementById('yearsInput');
-  [powerInput, yearsInput].forEach(el => el.addEventListener('input', renderTable));
-  unlimitedChk.addEventListener('change', renderTable);
-
-  const modal      = document.getElementById('guidelineModal');
-  const modalTitle = document.getElementById('modalTitle');
-  const modalBody  = document.getElementById('modalBody');
-  const closeBtn   = document.getElementById('modalClose');
-  if (closeBtn) closeBtn.onclick = () => modal.style.display = 'none';
-  window.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
-  function showModal(title, content) {
-    modalTitle.textContent = title;
-    modalBody.innerHTML    = content;
-    modal.style.display    = 'flex';
-  }
-
-  const displayCols = [];
-  if (idx.guideline >= 0) displayCols.push({ idx: idx.guideline, type: 'guideline', label: 'Guideline' });
-  headerRaw.forEach((h, i) => {
-    if (i === idx.guideline) return;
-    displayCols.push({ idx: i, type: 'field', label: h.split(' ').join('<br>') });
-  });
-
-  let currentSort = { by: 'company name', dir: 'asc' };
-
-  const table = document.getElementById('resultsTable');
-  const noMsg = document.getElementById('no-results-message');
-
   function match(col, cell) {
     const sel = filters[col];
     if (!sel) return true;
@@ -161,6 +125,36 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (prev) sel.value = prev;
     });
   }
+
+  const powerInput   = document.getElementById('powerUnitsInput');
+  const unlimitedChk = document.getElementById('unlimitedCheckbox');
+  const yearsInput   = document.getElementById('yearsInput');
+  [powerInput, yearsInput].forEach(el => el.addEventListener('input', renderTable));
+  unlimitedChk.addEventListener('change', renderTable);
+
+  const modal      = document.getElementById('guidelineModal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalBody  = document.getElementById('modalBody');
+  const closeBtn   = document.getElementById('modalClose');
+  if (closeBtn) closeBtn.onclick = () => modal.style.display = 'none';
+  window.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
+  function showModal(title, content) {
+    modalTitle.textContent = title;
+    modalBody.innerHTML  = content;
+    modal.style.display   = 'flex';
+  }
+
+  const displayCols = [];
+  if (idx.guideline >= 0) displayCols.push({ idx: idx.guideline, type: 'guideline', label: 'Guideline' });
+  headerRaw.forEach((h, i) => {
+    if (i === idx.guideline) return;
+    displayCols.push({ idx: i, type: 'field', label: h.split(' ').join('<br>') });
+  });
+
+  let currentSort = { by: 'company name', dir: 'asc' };
+
+  const table = document.getElementById('resultsTable');
+  const noMsg = document.getElementById('no-results-message');
 
   function renderTable() {
     const pv = powerInput.value ? +powerInput.value : null;
@@ -284,4 +278,4 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   populateFilters();
   renderTable();
-});
+}
