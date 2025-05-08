@@ -1,26 +1,36 @@
-const APP_PASSWORD = 'Royalty2025$$xyz098'; // 🔐 Set your general password here
+const APP_PASSWORD = 'Royalty2025$$xyz098';
 
-function checkAccess() {
-  if (sessionStorage.getItem('authenticated')) return; // Already allowed
+function initializeApp() {
 
-  const overlay = document.getElementById('passwordOverlay');
-  const input = document.getElementById('passwordInput');
-  const submit = document.getElementById('passwordSubmit');
-  const error = document.getElementById('passwordError');
-
-  document.body.classList.add('blurred');
-
-  submit.addEventListener('click', () => {
-    const entered = input.value.trim();
-    if (entered === APP_PASSWORD) {
-      sessionStorage.setItem('authenticated', '1');
-      overlay.style.display = 'none';
+  document.addEventListener('DOMContentLoaded', () => {
+    if (sessionStorage.getItem('authenticated') === 'true') {
+      document.getElementById('passwordOverlay').style.display = 'none';
       document.body.classList.remove('blurred');
-    } else {
-      error.style.display = 'block';
-      input.value = '';
+      initializeApp();
+      return;
     }
+  
+    const overlay = document.getElementById('passwordOverlay');
+    const input = document.getElementById('passwordInput');
+    const submit = document.getElementById('passwordSubmit');
+    const error = document.getElementById('passwordError');
+  
+    document.body.classList.add('blurred');
+  
+    submit.addEventListener('click', () => {
+      const entered = input.value.trim();
+      if (entered === APP_PASSWORD) {
+        sessionStorage.setItem('authenticated', 'true');
+        overlay.style.display = 'none';
+        document.body.classList.remove('blurred');
+        initializeApp(); // ✅ Load app now
+      } else {
+        error.style.display = 'block';
+        input.value = '';
+      }
+    });
   });
+  
 }
 
 
