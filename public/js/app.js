@@ -210,8 +210,8 @@ async function loadAndRender() {
         const btn = document.createElement('button');
         btn.className = 'sort-btn';
         btn.textContent = currentSort.by === 'wholesaler'
-          ? (currentSort.dir === 'asc' ? ' 🔼' : ' 🔽')
-          : ' ⇅';
+          ? (currentSort.dir === 'asc' ? '⬆️' : '⬇️')
+          : '↕️';
         btn.addEventListener('click', () => {
           currentSort = {
             by: 'wholesaler',
