@@ -249,7 +249,7 @@ async function loadAndRender() {
             showModal('Business Types', `<ul>${list.map(v => `<li>${v}</li>`).join('')}</ul>`);
           });
         } else if (col.idx === idx.states) {
-          td.innerHTML = `<button class="view-btn">🇺🇸</button>`;
+          td.innerHTML = `<button class="view-btn">📍</button>`;
           td.firstChild.addEventListener('click', e => {
             e.stopPropagation();
             const states = cell.split(',').map(s => s.trim()).filter(Boolean);
