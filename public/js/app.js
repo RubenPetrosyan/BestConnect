@@ -1,4 +1,4 @@
-const APP_PASSWORD = 'Royalty2025$$xyz098'; // 🔐 Change this to your secure password
+const APP_PASSWORD = 'Royalty2025$$xyz098';
 
 document.addEventListener('DOMContentLoaded', () => {
   const overlay = document.getElementById('passwordOverlay');
@@ -249,10 +249,12 @@ async function loadAndRender() {
             showModal('Business Types', `<ul>${list.map(v => `<li>${v}</li>`).join('')}</ul>`);
           });
         } else if (col.idx === idx.states) {
-          const parts = cell.split(',').map(s => s.trim()).filter(Boolean);
-          td.textContent = parts.length > 1 ? parts[0] + '…' : cell;
-          td.setAttribute('data-full', cell);
-          td.classList.add('ellipsis');
+          td.innerHTML = `<button class="view-btn">📍</button>`;
+          td.firstChild.addEventListener('click', e => {
+            e.stopPropagation();
+            const states = cell.split(',').map(s => s.trim()).filter(Boolean);
+            showModal('States Covered', `<ul>${states.map(s => `<li>${s}</li>`).join('')}</ul>`);
+          });
         } else if (col.idx === idx.pdfLink && cell) {
           td.innerHTML = `<a href="${cell}" target="_blank" rel="noopener" class="view-btn">📄</a>`;
         } else {
