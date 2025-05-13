@@ -29,7 +29,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-
+function populateFilters() {
+  filterable.forEach((col, i) => {
+    const ci = headerRaw.indexOf(col);
+    let opts;
+    if (['States', 'Business Type', 'Coverage Types'].includes(col)) {
+      opts = Array.from(new Set(
+        data.flatMap(r => r[ci].split(',').map(s => s.trim()))
+      ));
+    } else {
+      opts = Array.from(new Set(data.map(r => r[ci])));
+    }
+    opts = opts.filter(v => v).sort();
+    const sel = document.getElementById(`f-${i}`);
+    const prev = sel.value;
+    sel.innerHTML = '<option value="">Please select</option>';
+    opts.forEach(v => sel.append(new Option(v, v)));
+    if (prev) sel.value = prev;
+  });
+}
 async function loadAndRender() {
   let raw;
   try {
