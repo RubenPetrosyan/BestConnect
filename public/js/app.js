@@ -202,13 +202,6 @@ async function loadAndRender() {
     table.style.display = 'table';
     table.innerHTML = '';
 
-    const grouped = {};
-    rows.forEach(r => {
-      const name = (r[idx.name] || '').trim().toLowerCase();
-      if (!grouped[name]) grouped[name] = [];
-      grouped[name].push(r);
-    });
-
     const hr = document.createElement('tr');
     displayCols.forEach(col => {
       const th = document.createElement('th');
@@ -232,75 +225,45 @@ async function loadAndRender() {
     });
     table.appendChild(hr);
 
-    Object.entries(grouped).forEach(([groupKey, groupRows]) => {
-      const displayName = groupRows[0][idx.name].trim();
-      if (groupRows.length === 1) {
-        renderRow(groupRows[0]);
-      } else {
-        const trHead = document.createElement('tr');
-        trHead.className = 'group-header';
+    rows.forEach(r => {
+      const tr = document.createElement('tr');
+      displayCols.forEach(col => {
         const td = document.createElement('td');
-        td.colSpan = displayCols.length;
-        td.innerHTML = `<button class="toggle-group">⬇️</button> <strong>${displayName} (${groupRows.length})</strong>`;
-        trHead.appendChild(td);
-        table.appendChild(trHead);
+        const cell = (r[col.idx]||'').trim();
 
-        let expanded = false;
-        const rowsElements = groupRows.map(row => renderRow(row, true));
-        trHead.querySelector('.toggle-group').addEventListener('click', () => {
-          expanded = !expanded;
-          trHead.querySelector('.toggle-group').textContent = expanded ? '⬆️' : '⬇️';
-          rowsElements.forEach(r => r.style.display = expanded ? '' : 'none');
-        });
-      }
-    });
-  }
-
-  function renderRow(r, returnNodeOnly = false) {
-    const tr = document.createElement('tr');
-    displayCols.forEach(col => {
-      const td = document.createElement('td');
-      const cell = (r[col.idx]||'').trim();
-
-      if (col.type === 'guideline') {
-        td.innerHTML = `<button class="view-btn">📄</button>`;
-        td.firstChild.addEventListener('click', e => {
-          e.stopPropagation();
-          const parts = cell.split('--').map(s => s.trim()).join('<br>');
-          showModal('Submission Guideline', `<p>${parts}</p>`);
-        });
-      } else if (col.idx === idx.coverage) {
-        const list = cell.split(',').map(s => s.trim()).filter(Boolean);
-        td.innerHTML = list.join('<br>');
-      } else if (col.idx === idx.business) {
-        td.innerHTML = `<button class="view-btn">🚛</button>`;
-        td.firstChild.addEventListener('click', e => {
-          e.stopPropagation();
+        if (col.type === 'guideline') {
+          td.innerHTML = `<button class="view-btn">📄</button>`;
+          td.firstChild.addEventListener('click', e => {
+            e.stopPropagation();
+            const parts = cell.split('--').map(s => s.trim()).join('<br>');
+            showModal('Submission Guideline', `<p>${parts}</p>`);
+          });
+        } else if (col.idx === idx.coverage) {
           const list = cell.split(',').map(s => s.trim()).filter(Boolean);
-          showModal('Business Types', `<ul>${list.map(v => `<li>${v}</li>`).join('')}</ul>`);
-        });
-      } else if (col.idx === idx.states) {
-        td.innerHTML = `<button class="view-btn">📍</button>`;
-        td.firstChild.addEventListener('click', e => {
-          e.stopPropagation();
-          const states = cell.split(',').map(s => s.trim()).filter(Boolean);
-          showModal('States Covered', `<ul>${states.map(s => `<li>${s}</li>`).join('')}</ul>`);
-        });
-      } else if (col.idx === idx.pdfLink && cell) {
-        td.innerHTML = `<a href="${cell}" target="_blank" rel="noopener" class="view-btn">📄</a>`;
-      } else {
-        td.textContent = cell;
-      }
-      tr.appendChild(td);
+          td.innerHTML = list.join('<br>');
+        } else if (col.idx === idx.business) {
+          td.innerHTML = `<button class="view-btn">🚛</button>`;
+          td.firstChild.addEventListener('click', e => {
+            e.stopPropagation();
+            const list = cell.split(',').map(s => s.trim()).filter(Boolean);
+            showModal('Business Types', `<ul>${list.map(v => `<li>${v}</li>`).join('')}</ul>`);
+          });
+        } else if (col.idx === idx.states) {
+          td.innerHTML = `<button class="view-btn">📍</button>`;
+          td.firstChild.addEventListener('click', e => {
+            e.stopPropagation();
+            const states = cell.split(',').map(s => s.trim()).filter(Boolean);
+            showModal('States Covered', `<ul>${states.map(s => `<li>${s}</li>`).join('')}</ul>`);
+          });
+        } else if (col.idx === idx.pdfLink && cell) {
+          td.innerHTML = `<a href="${cell}" target="_blank" rel="noopener" class="view-btn">📄</a>`;
+        } else {
+          td.textContent = cell;
+        }
+        tr.appendChild(td);
+      });
+      table.appendChild(tr);
     });
-
-    if (returnNodeOnly) {
-      tr.style.display = 'none';
-      table.appendChild(tr);
-      return tr;
-    } else {
-      table.appendChild(tr);
-    }
   }
 
   document.getElementById('resetBtn').onclick = () => {
