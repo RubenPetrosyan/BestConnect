@@ -241,7 +241,7 @@ async function loadAndRender() {
         trHead.className = 'group-header';
         const td = document.createElement('td');
         td.colSpan = displayCols.length;
-        td.innerHTML = `<button class="toggle-group">➕</button> <strong>${displayName} (${groupRows.length})</strong>`;
+        td.innerHTML = `<button class="toggle-group">⬇️</button> <strong>${displayName} (${groupRows.length})</strong>`;
         trHead.appendChild(td);
         table.appendChild(trHead);
 
@@ -249,7 +249,7 @@ async function loadAndRender() {
         const rowsElements = groupRows.map(row => renderRow(row, true));
         trHead.querySelector('.toggle-group').addEventListener('click', () => {
           expanded = !expanded;
-          trHead.querySelector('.toggle-group').textContent = expanded ? '➖' : '➕';
+          trHead.querySelector('.toggle-group').textContent = expanded ? '⬆️' : '⬇️';
           rowsElements.forEach(r => r.style.display = expanded ? '' : 'none');
         });
       }
