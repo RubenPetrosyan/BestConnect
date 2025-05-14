@@ -323,3 +323,18 @@ th.sortable.sorted-desc::after {
     display: none;
   } */
 }
+#printBtn {
+  display: block;
+  margin: 0 auto 20px;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  color: #fff;
+  background: #e67e22;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#printBtn:hover {
+  background: #d35400;
+}
