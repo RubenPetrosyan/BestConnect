@@ -275,38 +275,51 @@ th.sortable.sorted-desc::after {
 }
 
 /* ========== Responsive Adjustments ========== */
-@media (max-width: 600px) {
-  #filters {
-    grid-template-columns: 1fr;
-  }
-  .filter-row {
-    grid-template-columns: 1fr;
-  }
-}
-
 @media print {
+  @page {
+    size: landscape;
+    margin: 1cm;
+  }
+
   body * {
     visibility: hidden;
   }
+
   .table-container,
   .table-container * {
     visibility: visible;
   }
+
   .table-container {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
+    overflow: visible;
   }
 
-  /* Optional: remove row checkboxes when printing */
+  #resetBtn,
+  #printBtn,
+  .view-btn,
   input[type="checkbox"] {
     display: none !important;
   }
 
-  .view-btn,
-  #resetBtn,
-  #printBtn {
-    display: none !important;
+  #resultsTable {
+    table-layout: fixed;
+    width: 100%;
   }
+
+  #resultsTable th,
+  #resultsTable td {
+    padding: 6px 4px;
+    font-size: 10pt;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  /* Optional: hide specific wide columns by index (e.g., guideline) */
+  /* th:nth-child(4), td:nth-child(4) {
+    display: none;
+  } */
 }
