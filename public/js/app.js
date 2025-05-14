@@ -206,21 +206,22 @@ async function loadAndRender() {
     displayCols.forEach(col => {
       const th = document.createElement('th');
       th.innerHTML = col.label;
-      if (col.idx === idx.wholesaler) {
-        const btn = document.createElement('button');
-        btn.className = 'sort-btn';
-        btn.textContent = currentSort.by === 'wholesaler'
-          ? (currentSort.dir === 'asc' ? '⬆️' : '⬇️')
-          : '↕️';
-        btn.addEventListener('click', () => {
-          currentSort = {
-            by: 'wholesaler',
-            dir: currentSort.dir === 'asc' ? 'desc' : 'asc'
-          };
-          renderTable();
-        });
-        th.appendChild(btn);
-      }
+      if (col.idx === idx.wholesaler || col.idx === idx.name) {
+  const btn = document.createElement('button');
+  btn.className = 'sort-btn';
+  btn.textContent = currentSort.by === headerKey[col.idx]
+    ? (currentSort.dir === 'asc' ? '⬆️' : '⬇️')
+    : '↕️';
+  btn.addEventListener('click', () => {
+    currentSort = {
+      by: headerKey[col.idx],
+      dir: currentSort.by === headerKey[col.idx] && currentSort.dir === 'asc' ? 'desc' : 'asc'
+    };
+    renderTable();
+  });
+  th.appendChild(btn);
+}
+
       hr.appendChild(th);
     });
     table.appendChild(hr);
