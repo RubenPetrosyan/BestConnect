@@ -279,11 +279,6 @@ th.sortable.sorted-desc::after {
     size: landscape;
     margin: 1cm;
   }
-th.sortable::after,
-th.sortable.sorted-asc::after,
-th.sortable.sorted-desc::after {
-  content: none !important;
-}
 
   body * {
     visibility: hidden;
@@ -332,30 +327,50 @@ th.sortable.sorted-desc::after {
     display: none;
   }
 
-  /* 2. Guideline column — adjust if needed (2nd in your structure) */
+  /* 2. Guideline column */
   #resultsTable th:nth-child(2),
   #resultsTable td:nth-child(2) {
     display: none;
   }
 
-  /* 3. States column — adjust based on actual position */
+  /* 3. States column */
   #resultsTable th:nth-child(6),
   #resultsTable td:nth-child(6) {
     display: none;
   }
 
-  /* 4. Business Type column — adjust if needed */
+  /* 4. Business Type column */
   #resultsTable th:nth-child(11),
   #resultsTable td:nth-child(11) {
     display: none;
   }
 
-  /* 5. URL column (PDF link) — adjust if needed */
+  /* 5. URL column */
   #resultsTable th:nth-child(18),
   #resultsTable td:nth-child(18) {
     display: none;
   }
+
+  /* === SORT ICON REPLACEMENT === */
+  th.sortable::after {
+    content: none !important;
+  }
+
+  th.sortable.sorted-asc::after {
+    content: " (sorted ↑)" !important;
+    font-size: 10pt;
+    color: #fff;
+    padding-left: 4px;
+  }
+
+  th.sortable.sorted-desc::after {
+    content: " (sorted ↓)" !important;
+    font-size: 10pt;
+    color: #fff;
+    padding-left: 4px;
+  }
 }
+
 
 #printBtn {
   display: block;
