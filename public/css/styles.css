@@ -283,3 +283,30 @@ th.sortable.sorted-desc::after {
     grid-template-columns: 1fr;
   }
 }
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .table-container,
+  .table-container * {
+    visibility: visible;
+  }
+  .table-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  /* Optional: remove row checkboxes when printing */
+  input[type="checkbox"] {
+    display: none !important;
+  }
+
+  .view-btn,
+  #resetBtn,
+  #printBtn {
+    display: none !important;
+  }
+}
