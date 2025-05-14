@@ -317,12 +317,31 @@ th.sortable.sorted-desc::after {
     white-space: normal;
     word-break: break-word;
   }
+    /* Hide checkbox column (1st) */
+  #resultsTable th:nth-child(1),
+  #resultsTable td:nth-child(1) {
+    display: none;
+  }
+
+  /* Hide guideline column — adjust number if needed */
+  #resultsTable th:nth-child(2),
+  #resultsTable td:nth-child(2) {
+    display: none;
+  }
+
+  /* Hide URL column — adjust number if needed */
+  #resultsTable th:nth-child(10),
+  #resultsTable td:nth-child(10) {
+    display: none;
+  }
+}
+
 
   /* Optional: hide specific wide columns by index (e.g., guideline) */
   /* th:nth-child(4), td:nth-child(4) {
     display: none;
   } */
-}
+   
 #printBtn {
   display: block;
   margin: 0 auto 20px;
