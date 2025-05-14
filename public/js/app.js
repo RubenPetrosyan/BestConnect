@@ -55,8 +55,8 @@ async function loadAndRender() {
   if (maxP < 0) maxP = headerKey.findIndex(h => h.includes('max power un'));
 
   const idx = {
-    name:       idxOf('company name'),
-    wholesaler: idxOf('wholesaler'),
+    name:       idxOf('company name '),
+    wholesaler: idxOf('wholesaler '),
     states:     idxOf('states'),
     minPower:   minP,
     maxPower:   maxP,
@@ -151,7 +151,7 @@ async function loadAndRender() {
     displayCols.push({ idx: i, type: 'field', label: h.split(' ').join('<br>') });
   });
 
-  let currentSort = { by: 'company name', dir: 'asc' };
+  let currentSort = { by: 'company name ', dir: 'asc' };
 
   const table = document.getElementById('resultsTable');
   const noMsg = document.getElementById('no-results-message');
@@ -275,7 +275,7 @@ async function loadAndRender() {
     powerInput.value = '';
     yearsInput.value = '';
     unlimitedChk.checked = false;
-    currentSort = { by: 'company name', dir: 'asc' };
+    currentSort = { by: 'company name ', dir: 'asc' };
     renderTable();
   };
 
