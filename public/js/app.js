@@ -205,13 +205,18 @@ async function loadAndRender() {
     const hr = document.createElement('tr');
     displayCols.forEach(col => {
       const th = document.createElement('th');
-      th.innerHTML = col.label;
+      const labelSpan = document.createElement('span');
+labelSpan.innerHTML = col.label;
+labelSpan.style.marginRight = '4px';  // Add spacing before the icon
+th.appendChild(labelSpan);
+
       if (col.idx === idx.wholesaler || col.idx === idx.name) {
   const btn = document.createElement('button');
   btn.className = 'sort-btn';
   btn.textContent = currentSort.by === headerKey[col.idx]
     ? (currentSort.dir === 'asc' ? '⬆️' : '⬇️')
     : '↕️';
+  btn.style.marginLeft = '4px'; // optional extra spacing
   btn.addEventListener('click', () => {
     currentSort = {
       by: headerKey[col.idx],
