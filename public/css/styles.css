@@ -334,20 +334,20 @@ th.sortable.sorted-desc::after {
   }
 
   /* 3. States column — adjust based on actual position */
-  #resultsTable th:nth-child(4),
-  #resultsTable td:nth-child(4) {
+  #resultsTable th:nth-child(5),
+  #resultsTable td:nth-child(5) {
     display: none;
   }
 
   /* 4. Business Type column — adjust if needed */
-  #resultsTable th:nth-child(7),
-  #resultsTable td:nth-child(7) {
+  #resultsTable th:nth-child(8),
+  #resultsTable td:nth-child(8) {
     display: none;
   }
 
   /* 5. URL column (PDF link) — adjust if needed */
-  #resultsTable th:nth-child(9),
-  #resultsTable td:nth-child(9) {
+  #resultsTable th:nth-child(12),
+  #resultsTable td:nth-child(12) {
     display: none;
   }
 }
