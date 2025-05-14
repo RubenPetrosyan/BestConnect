@@ -1,4 +1,4 @@
-const APP_PASSWORD = 'Royalty2025$$xyz098';
+const APP_PASSWORD = 'qwer1234!@#$';
 
 document.addEventListener('DOMContentLoaded', () => {
   const overlay = document.getElementById('passwordOverlay');
