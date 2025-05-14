@@ -334,8 +334,8 @@ th.sortable.sorted-desc::after {
   }
 
   /* 3. States column — adjust based on actual position */
-  #resultsTable th:nth-child(5),
-  #resultsTable td:nth-child(5) {
+  #resultsTable th:nth-child(4),
+  #resultsTable td:nth-child(4) {
     display: none;
   }
 
@@ -346,8 +346,8 @@ th.sortable.sorted-desc::after {
   }
 
   /* 5. URL column (PDF link) — adjust if needed */
-  #resultsTable th:nth-child(11),
-  #resultsTable td:nth-child(11) {
+  #resultsTable th:nth-child(9),
+  #resultsTable td:nth-child(9) {
     display: none;
   }
 }
