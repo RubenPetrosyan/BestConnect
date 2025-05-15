@@ -414,3 +414,14 @@ th.sortable.sorted-desc::after {
   background: #fafafa;
   font-size: 0.9rem;
 }
+
+.search-bar {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.search-bar > div {
+  flex: 1 1 300px;
+}
