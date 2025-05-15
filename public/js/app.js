@@ -374,18 +374,7 @@ async function loadAndRender() {
     renderTable();
   });
 document.getElementById('printBtn').onclick = () => {
-  const originalContent = document.body.innerHTML;
-  const printArea = document.querySelector('.table-container').outerHTML;
-
-  // Optional: include title or filters summary
-  const header = `<h2>Risk Match - Results</h2>`;
-
-  // Replace body content temporarily
-  document.body.innerHTML = header + printArea;
   window.print();
-
-  // Restore original page content after printing
-  location.reload(); // or: document.body.innerHTML = originalContent;
 };
 
   populateFilters();
