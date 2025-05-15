@@ -176,13 +176,13 @@ h1 {
   word-break: break-word;
 }
 #resultsTable tr:nth-child(odd) {
-  background: #fcf3e3;
+  background: #d0edfd;
 }
 #resultsTable tr:nth-child(even) {
   background: #fff;
 }
 #resultsTable tr:hover {
-  background: #fdebd0;
+  background: #d0eefd;
 }
 #resultsTable td a {
   color: #357EC7;
