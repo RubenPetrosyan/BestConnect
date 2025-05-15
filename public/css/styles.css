@@ -222,7 +222,7 @@ th.sortable.sorted-desc::after {
   transition: opacity 0.1s;
 }
 .view-btn:hover {
-  color: #d35400;
+  color: #0d3d6d;
 }
 .view-btn:active {
   opacity: 0.6;
@@ -259,7 +259,7 @@ th.sortable.sorted-desc::after {
 }
 .modal-content h2 {
   margin: 0;
-  color: #e67e22;
+  color: #357EC7;
 }
 .modal-body {
   margin-top: 10px;
@@ -376,7 +376,7 @@ th.sortable.sorted-desc::after {
   transition: background 0.2s;
 }
 #printBtn:hover {
-  background: #0d09d3;
+  background: #134678;
 }
 
 .company-search {
