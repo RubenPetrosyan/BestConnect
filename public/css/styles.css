@@ -9,7 +9,7 @@ body {
 h1 {
   text-align: center;
   margin-bottom: 20px;
-  color: #e67e22;
+  color: #357EC7;
 }
 
 /* ========== Dropdown Filters Container ========== */
@@ -43,7 +43,7 @@ h1 {
 }
 .filter select:focus {
   outline: none;
-  border-color: #e67e22;
+  border-color: #357EC7;
 }
 
 /* ========== Combined Filter Row ========== */
@@ -51,7 +51,7 @@ h1 {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 12px;
-  background: #e67e22;
+  background: #357EC7;
   padding: 16px;
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.1);
@@ -80,7 +80,7 @@ h1 {
 }
 .filter-power input:focus {
   outline: none;
-  border-color: #e67e22;
+  border-color: #357EC7;
 }
 
 /* Unlimited Radius */
@@ -124,7 +124,7 @@ h1 {
 }
 .filter-years input:focus {
   outline: none;
-  border-color: #e67e22;
+  border-color: #357EC7;
 }
 
 /* ========== Reset Button ========== */
@@ -134,7 +134,7 @@ h1 {
   padding: 10px 20px;
   font-size: 0.9rem;
   color: #fff;
-  background: #e67e22;
+  background: #357EC7;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -167,7 +167,7 @@ h1 {
   font-size: 0.9rem;
 }
 #resultsTable th {
-  background: #e67e22;
+  background: #357EC7;
   color: #fff;
   position: sticky;
   top: 0;
@@ -185,7 +185,7 @@ h1 {
   background: #fdebd0;
 }
 #resultsTable td a {
-  color: #e67e22;
+  color: #357EC7;
   text-decoration: none;
   font-weight: 500;
 }
@@ -215,7 +215,7 @@ th.sortable.sorted-desc::after {
 .view-btn {
   background: none;
   border: none;
-  color: #e67e22;
+  color: #357EC7;
   font-size: 1rem;
   cursor: pointer;
   padding: 4px;
