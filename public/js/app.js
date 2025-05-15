@@ -129,6 +129,10 @@ async function loadAndRender() {
   const powerInput   = document.getElementById('powerUnitsInput');
   const unlimitedChk = document.getElementById('unlimitedCheckbox');
   const yearsInput   = document.getElementById('yearsInput');
+
+  const companySearchInput = document.getElementById('companySearch');
+  companySearchInput.addEventListener('input', renderTable);
+
   [powerInput, yearsInput].forEach(el => el.addEventListener('input', renderTable));
   unlimitedChk.addEventListener('change', renderTable);
 
@@ -202,8 +206,17 @@ async function loadAndRender() {
     const yv = yearsInput.value ? +yearsInput.value : null;
     const un = unlimitedChk.checked;
 
+    const companyQuery = companySearchInput.value.trim().toLowerCase();
+
+
     let rows = data.filter(r => {
       if (!filterable.every(col => match(col, r[headerRaw.indexOf(col)]))) return false;
+
+        if (companyQuery.length >= 3) {
+    const name = r[idx.name].toLowerCase();
+    if (!name.startsWith(companyQuery)) return false;
+  }
+
 
       if (pv !== null) {
         const rawMax = (r[idx.maxPower] || '').trim().toLowerCase();
@@ -361,6 +374,7 @@ async function loadAndRender() {
     hiddenRows.clear();
     selectedRows.clear();
     renderTable();
+    companySearchInput.value = '';
   };
 
   hideBtn.addEventListener('click', () => {

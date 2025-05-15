@@ -378,3 +378,21 @@ th.sortable.sorted-desc::after {
 #printBtn:hover {
   background: #0d09d3;
 }
+
+.company-search {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+}
+.company-search label {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+#companySearch {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: #fafafa;
+  font-size: 0.9rem;
+}
