@@ -133,6 +133,10 @@ async function loadAndRender() {
   const companySearchInput = document.getElementById('companySearch');
   companySearchInput.addEventListener('input', renderTable);
 
+  const wholesalerSearchInput = document.getElementById('wholesalerSearch');
+  wholesalerSearchInput.addEventListener('input', renderTable);
+
+
   [powerInput, yearsInput].forEach(el => el.addEventListener('input', renderTable));
   unlimitedChk.addEventListener('change', renderTable);
 
@@ -207,6 +211,8 @@ async function loadAndRender() {
     const un = unlimitedChk.checked;
 
     const companyQuery = companySearchInput.value.trim().toLowerCase();
+    const wholesalerQuery = wholesalerSearchInput.value.trim().toLowerCase();
+
 
 
     let rows = data.filter(r => {
@@ -217,6 +223,10 @@ async function loadAndRender() {
     if (!name.startsWith(companyQuery)) return false;
   }
 
+      if (wholesalerQuery.length >= 3) {
+  const wholesaler = r[idx.wholesaler].toLowerCase();
+  if (!wholesaler.startsWith(wholesalerQuery)) return false;
+}
 
       if (pv !== null) {
         const rawMax = (r[idx.maxPower] || '').trim().toLowerCase();
@@ -375,6 +385,7 @@ async function loadAndRender() {
     selectedRows.clear();
     renderTable();
     companySearchInput.value = '';
+    wholesalerSearchInput.value = '';
   };
 
   hideBtn.addEventListener('click', () => {

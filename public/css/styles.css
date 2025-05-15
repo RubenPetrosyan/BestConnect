@@ -396,3 +396,21 @@ th.sortable.sorted-desc::after {
   background: #fafafa;
   font-size: 0.9rem;
 }
+
+.wholesaler-search {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+}
+.wholesaler-search label {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+#wholesalerSearch {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: #fafafa;
+  font-size: 0.9rem;
+}
