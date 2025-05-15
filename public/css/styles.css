@@ -365,7 +365,7 @@ th.sortable.sorted-desc::after {
 
 #printBtn {
   display: block;
-  margin: 0 10px 20px;
+  margin: 0 auto 20px;
   padding: 10px 20px;
   font-size: 0.9rem;
   color: #fff;
