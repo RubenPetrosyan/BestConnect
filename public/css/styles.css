@@ -4,7 +4,7 @@ body {
   margin: 0;
   padding: 20px;
   background: #f2f2f2;
-  color: #333;
+  color: #f6f6f6;
 }
 h1 {
   text-align: center;
@@ -141,7 +141,7 @@ h1 {
   transition: background 0.2s;
 }
 #resetBtn:hover {
-  background: #d35400;
+  background: #184b7f;
 }
 /* ========== Table Styling ========== */
 .table-container {
